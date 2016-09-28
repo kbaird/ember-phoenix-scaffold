@@ -60,14 +60,14 @@ defmodule EmberPhoenixScaffold.TodoController do
 
   def new_data(data) do
     data |> Params.to_attributes
-         |> underscorize_keys
+         |> snakeify_keys
   end
 
-  defp underscorize_key(ky), do: String.replace(ky, "-", "_")
+  defp snakeify_key(ky), do: String.replace(ky, "-", "_")
 
-  defp underscorize_keys(%{} = attrs) do
+  defp snakeify_keys(%{} = attrs) do
     Map.to_list(attrs)
-    |> Enum.map(fn({ky, vl}) -> {underscorize_key(ky), vl} end)
+    |> Enum.map(fn({ky, vl}) -> {snakeify_key(ky), vl} end)
     |> Map.new
   end
 
