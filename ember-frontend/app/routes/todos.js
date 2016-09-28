@@ -25,5 +25,8 @@ let todos = [
 ];
 
 export default Ember.Route.extend({
-  model() { return todos; }
+  model() {
+    //return this.get('store').findAll('todo');
+    return todos;
+  }
 });
