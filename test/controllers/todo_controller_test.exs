@@ -45,7 +45,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
     conn = post conn, todo_path(conn, :create), %{
       "meta" => %{},
       "data" => %{
-        "type" => "todo",
+        "type" => "todos",
         "attributes" => @valid_attrs,
         "relationships" => relationships
       }
@@ -59,7 +59,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
     conn = post conn, todo_path(conn, :create), %{
       "meta" => %{},
       "data" => %{
-        "type" => "todo",
+        "type" => "todos",
         "attributes" => @invalid_attrs,
         "relationships" => relationships
       }
@@ -73,7 +73,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
     conn = put conn, todo_path(conn, :update, todo), %{
       "meta" => %{},
       "data" => %{
-        "type" => "todo",
+        "type" => "todos",
         "id" => todo.id,
         "attributes" => @valid_attrs,
         "relationships" => relationships
@@ -89,7 +89,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
     conn = put conn, todo_path(conn, :update, todo), %{
       "meta" => %{},
       "data" => %{
-        "type" => "todo",
+        "type" => "todos",
         "id" => todo.id,
         "attributes" => @invalid_attrs,
         "relationships" => relationships
