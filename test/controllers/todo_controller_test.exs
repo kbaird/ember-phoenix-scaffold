@@ -22,7 +22,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, todo_path(conn, :index)
     assert json_response(conn, 200)["data"]
-    [%{"type" => "todo"} | _] = json_response(conn, 200)["data"] # is a list of todos
+    assert is_list(json_response(conn, 200)["data"])
   end
 
   test "shows chosen resource", %{conn: conn} do
