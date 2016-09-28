@@ -21,7 +21,8 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, todo_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert json_response(conn, 200)["data"]
+    [%{"type" => "todo"} | _] = json_response(conn, 200)["data"] # is a list of todos
   end
 
   test "shows chosen resource", %{conn: conn} do
@@ -31,7 +32,7 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
     assert data["id"] == "#{todo.id}"
     assert data["type"] == "todo"
     assert data["attributes"]["title"] == todo.title
-    assert data["attributes"]["is_completed"] == todo.is_completed
+    assert data["attributes"]["is-completed"] == todo.is_completed
   end
 
   test "does not show resource and instead throw error when id is nonexistent", %{conn: conn} do
