@@ -38,5 +38,6 @@ defmodule EmberPhoenixScaffold.Endpoint do
     key: "_ember_phoenix_scaffold_key",
     signing_salt: "icVY8JmB"
 
+  plug CORSPlug, [origin: "http://localhost:9000"]
   plug EmberPhoenixScaffold.Router
 end
