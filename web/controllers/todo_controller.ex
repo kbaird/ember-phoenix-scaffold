@@ -2,44 +2,47 @@ defmodule EmberPhoenixScaffold.TodoController do
   use EmberPhoenixScaffold.Web, :controller
 
   alias EmberPhoenixScaffold.Todo
+  alias JaSerializer.Params
+
+  plug :scrub_params, "data" when action in [:create, :update]
 
   def index(conn, _params) do
     todos = Repo.all(Todo)
-    render(conn, "index.json", todos: todos)
+    render(conn, "index.json-api", data: todos)
   end
 
-  def create(conn, %{"todo" => todo_params}) do
-    changeset = Todo.changeset(%Todo{}, todo_params)
+  def create(conn, %{"data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
+    changeset = Todo.changeset(%Todo{}, Params.to_attributes(data))
 
     case Repo.insert(changeset) do
       {:ok, todo} ->
         conn
         |> put_status(:created)
         |> put_resp_header("location", todo_path(conn, :show, todo))
-        |> render("show.json", todo: todo)
+        |> render("show.json-api", data: todo)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(EmberPhoenixScaffold.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, data: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     todo = Repo.get!(Todo, id)
-    render(conn, "show.json", todo: todo)
+    render(conn, "show.json-api", data: todo)
   end
 
-  def update(conn, %{"id" => id, "todo" => todo_params}) do
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
     todo = Repo.get!(Todo, id)
-    changeset = Todo.changeset(todo, todo_params)
+    changeset = Todo.changeset(todo, Params.to_attributes(data))
 
     case Repo.update(changeset) do
       {:ok, todo} ->
-        render(conn, "show.json", todo: todo)
+        render(conn, "show.json-api", data: todo)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(EmberPhoenixScaffold.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, data: changeset)
     end
   end
 
@@ -52,4 +55,5 @@ defmodule EmberPhoenixScaffold.TodoController do
 
     send_resp(conn, :no_content, "")
   end
+
 end
