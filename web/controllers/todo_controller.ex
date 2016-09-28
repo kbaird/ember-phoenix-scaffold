@@ -23,7 +23,7 @@ defmodule EmberPhoenixScaffold.TodoController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(:errors, data: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
@@ -42,7 +42,7 @@ defmodule EmberPhoenixScaffold.TodoController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(:errors, data: changeset)
+        |> render("errors.json-api", data: changeset)
     end
   end
 
