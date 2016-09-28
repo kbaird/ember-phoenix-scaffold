@@ -11,7 +11,7 @@ defmodule EmberPhoenixScaffold.TodoController do
     render(conn, "index.json-api", data: todos)
   end
 
-  def create(conn, %{"data" => data = %{"type" => "todos", "attributes" => _todo_params}}) do
+  def create(conn, %{"data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
     changeset = Todo.changeset(%Todo{}, Params.to_attributes(data))
 
     case Repo.insert(changeset) do
@@ -32,7 +32,7 @@ defmodule EmberPhoenixScaffold.TodoController do
     render(conn, "show.json-api", data: todo)
   end
 
-  def update(conn, %{"id" => id, "data" => data = %{"type" => "todos", "attributes" => _todo_params}}) do
+  def update(conn, %{"id" => id, "data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
     todo      = Repo.get!(Todo, id)
     changeset = Todo.changeset(todo, Params.to_attributes(data))
 
