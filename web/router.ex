@@ -1,6 +1,8 @@
 defmodule EmberPhoenixScaffold.Router do
   use EmberPhoenixScaffold.Web, :router
 
+  alias EmberPhoenixScaffold.TodoController
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -11,11 +13,11 @@ defmodule EmberPhoenixScaffold.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    resources "/todos", TodoController, except: [:new, :edit]
   end
 
   scope "/", EmberPhoenixScaffold do
     pipe_through :browser # Use the default browser stack
-
     get "/", PageController, :index
   end
 
