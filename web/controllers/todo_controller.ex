@@ -12,7 +12,9 @@ defmodule EmberPhoenixScaffold.TodoController do
   end
 
   def create(conn, %{"data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
-    changeset = Todo.changeset(%Todo{}, Params.to_attributes(data))
+    new_data  = data |> Params.to_attributes
+                     |> underscorize_keys
+    changeset = Todo.changeset(%Todo{}, new_data)
 
     case Repo.insert(changeset) do
       {:ok, todo} ->
@@ -34,7 +36,9 @@ defmodule EmberPhoenixScaffold.TodoController do
 
   def update(conn, %{"id" => id, "data" => data = %{"type" => "todo", "attributes" => _todo_params}}) do
     todo      = Repo.get!(Todo, id)
-    changeset = Todo.changeset(todo, Params.to_attributes(data))
+    new_data  = data |> Params.to_attributes
+                     |> underscorize_keys
+    changeset = Todo.changeset(todo, new_data)
 
     case Repo.update(changeset) do
       {:ok, todo} ->
@@ -54,6 +58,16 @@ defmodule EmberPhoenixScaffold.TodoController do
     Repo.delete!(todo)
 
     send_resp(conn, :no_content, "")
+  end
+
+  ### PRIVATE FUNCTIONS
+
+  defp underscorize_key(ky), do: String.replace(ky, "-", "_")
+
+  defp underscorize_keys(%{} = attrs) do
+    Map.to_list(attrs)
+    |> Enum.map(fn({ky, vl}) -> {underscorize_key(ky), vl} end)
+    |> Map.new
   end
 
 end
