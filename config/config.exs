@@ -5,6 +5,13 @@
 # is restricted to this project.
 use Mix.Config
 
+config :plug,
+  :mimes, %{"application/vnd.api+json" => ["json-api"]}
+
+config :phoenix, :format_encoders, "json-api": Poison
+config :phoenix, PhoenixExample.Endpoint,
+  render_errors: [view: PhoenixExample.ErrorView, accepts: ~w(json-api)]
+
 # General application configuration
 config :ember_phoenix_scaffold,
   ecto_repos: [EmberPhoenixScaffold.Repo]
