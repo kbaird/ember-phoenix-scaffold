@@ -80,8 +80,12 @@ defmodule EmberPhoenixScaffold.TodoControllerTest do
       }
     }
 
-    assert json_response(conn, 200)["data"]["id"]
     assert Repo.get_by(Todo, @valid_attrs)
+    data = json_response(conn, 200)["data"]
+    assert data["id"] == "#{todo.id}"
+    assert data["type"] == "todo"
+    assert data["attributes"]["title"] == @valid_attrs[:title]
+    assert data["attributes"]["is-completed"] == @valid_attrs[:is_completed]
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do

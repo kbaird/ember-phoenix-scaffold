@@ -33,7 +33,7 @@ defmodule EmberPhoenixScaffold.TodoController do
   end
 
   def update(conn, %{"id" => id, "data" => data = %{"type" => "todos", "attributes" => _todo_params}}) do
-    todo = Repo.get!(Todo, id)
+    todo      = Repo.get!(Todo, id)
     changeset = Todo.changeset(todo, Params.to_attributes(data))
 
     case Repo.update(changeset) do
